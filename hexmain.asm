@@ -8,7 +8,7 @@ main:
 
 	jal	hexasc		# call hexasc
 	nop			# delay slot filler (just in case)	
-
+hexasc:
 	move	$a0,$v0		# copy return value to argument register
 
 	li	$v0,11		# syscall with v0 = 11 will print out
