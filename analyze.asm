@@ -4,7 +4,7 @@
 
 	.text
 main:
-	li	$s0,0x41
+	li	$s0,0x30
 loop:
 	move	$a0,$s0		# copy from s0 to a0
 	
@@ -14,7 +14,7 @@ loop:
 	addi	$s0,$s0,3	# what happens if the constant is changed?
 	
 	li	$t0,0x59
-	bne	$a0,$t0,loop
+	ble	$a0,$t0,loop
 	nop			# delay slot filler (just in case)
 
 stop:	j	stop		# loop forever here
