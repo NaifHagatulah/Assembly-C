@@ -4,7 +4,7 @@
 
 	.text
 main:
-	li	$a0,0		# change this to test different values
+	li	$a0,17		# change this to test different values
 
 	jal	hexasc		# call hexasc
 	nop			# delay slot filler (just in case)	
@@ -20,3 +20,18 @@ stop:	j	stop		# stop after one run
   # You can write your own code for hexasc here
   #
 
+hexasc:
+	li	$t3, 9
+	li	$t0, 0x41
+
+	andi	$t1, $a0, 0x00000001 #only use the 4 least significant bits. Could modify $a0 directly but not sure if that's allowed
+
+	bge	$t1, $t3, isLetter
+	li	$t0, 0
+	
+isLetter:
+	add	$t0, $t1, $t0
+	
+	move	$v0, $t0
+	jr	$ra
+	nop			#I've tried having move $v0, $t0 here but it doesn't seem to work
