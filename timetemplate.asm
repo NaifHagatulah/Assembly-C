@@ -96,5 +96,65 @@ delay:
 	jr	$ra
 	nop
 	
-time2string:
+time2string:	
+	andi	$t1, $a1, 0x0000F000	# store 4 MSB in $t1
+	srl	$t1, $t1, 12
 	
+	PUSH	$a1			# save $a1
+	PUSH	$a0			# save $a0
+	
+	move	$a0, $t1		# set argument for hexasc to $t1
+	jal	hexasc			# call hexasc
+	
+	POP	$a0			# read $a0
+	POP	$a1			# read $a1
+	
+	sb	$v0, ($a0)		# store value from hexasc at address $a0
+
+	andi	$t1, $a1, 0x00000F00	# store 4 next MSB in $t2
+	srl	$t1, $t1, 8
+	
+	PUSH	$a1			# re-store $a1
+	PUSH	$a0			# re-store $a0
+	
+	move	$a0, $t1		# set argument for hexasc to $t1
+	jal	hexasc			# call hexasc
+
+	POP	$a0			# read $a0
+	POP	$a1			# read $a1
+	
+	sb	$v0, 1($a0)		# store value from hexasc at address $a0
+	
+	li	$t0, 0x3A
+	sb	$t0, 2($a0)
+	
+	andi	$t1, $a1, 0x000000F0	# store 4 LSB in $t1
+	srl	$t1, $t1, 4
+	
+	PUSH	$a1			# re-store $a1
+	PUSH	$a0			# re-store $a0
+	
+	move	$a0, $t1		# set argument for hexasc to $t1
+	jal	hexasc			# call hexasc
+
+	POP	$a0			# read $a0
+	POP	$a1			# read $a1
+	
+	sb	$v0, 3($a0)		# store value from hexasc at address $a0
+	
+	andi	$t1, $a1, 0x0000000F	# store 4 LSB in $t1
+	srl	$t1, $t1, 0
+	
+	PUSH	$a1			# re-store $a1
+	PUSH	$a0			# re-store $a0
+	
+	move	$a0, $t1		# set argument for hexasc to $t1
+	jal	hexasc			# call hexasc
+
+	POP	$a0			# read $a0
+	POP	$a1			# read $a1
+	
+	sb	$v0, 4($a0)		# store value from hexasc at address $a0
+	
+	li	$t0, 0x00		# load null byte
+	sb	$t0, 5($a0)		# write null byte
