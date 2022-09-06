@@ -76,12 +76,12 @@ tiend:	sw	$t0,0($a0)	# save updated result
   #
 
 hexasc:
-	li	$t3, 0x0000000F		#bitmask to only use 4 least significant bits
 	li	$t0, 0x30	
 
-	and	$t1, $a0, $t3		#apply bitmask. Could modify $a0 directly but not sure if that's allowed. $t1 is our "fixed" argument, our character offset
+	andi	$t1, $a0, 0x0000000F	#apply bitmask. Could modify $a0 directly but not sure if that's allowed. $t1 is our "fixed" argument, our character offset
 
 	ble	$t1, 9, hasFixedLetter	#if $t1 is less than or equal to 9 we skip doing letter specific stuff since it's not a letter 
+	nop
 	li	$t0, 0x41		#if the code ever gets here it means $t1 is a letter, we will update $t0 to be the "start point" for letters
 	sub	$t1, $t1, 10		#then we remove 10 from the letter index since the value 10 should be the first letter, 11 should be the second and so on
 	
