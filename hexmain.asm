@@ -4,7 +4,7 @@
 
 	.text
 main:
-	li	$a0,11		# change this to test different values
+	li	$a0,3		# change this to test different values
 
 	jal	hexasc		# call hexasc
 	nop			# delay slot filler (just in case)	
@@ -35,4 +35,4 @@ hasFixedLetter:
 	
 	move	$v0, $t0		#put the value of $t0 in the return value register
 	jr	$ra			#return
-	nop			#I've tried having move $v0, $t0 here but it doesn't seem to work
+	nop				#I've tried having move $v0, $t0 here but it doesn't seem to work
