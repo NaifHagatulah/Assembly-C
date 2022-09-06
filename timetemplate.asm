@@ -93,6 +93,21 @@ hasFixedLetter:
 	nop				#I've tried having move $v0, $t0 here but it doesn't seem to work
 
 delay:
+	move	$t0, $a0 			# this is "i"
+
+while:
+	ble	$t0, 0, done			# if $t0 is <= 0 we go to done
+
+	subi	$t0, $t0, 1			# remove 1 from $t0
+
+	li	$t1, 20 # this is the constant that needs to be changed!!
+	li	$t2, 0				# this is "i"
+innerLoop:
+	addi	$t2, $t2, 1
+	blt	$t2, $t1, innerLoop
+
+	j while
+done:
 	jr	$ra
 	nop
 	
