@@ -4,11 +4,11 @@
 
 	.text
 main:
-	li	$a0,17		# change this to test different values
+	li	$a0,11		# change this to test different values
 
 	jal	hexasc		# call hexasc
 	nop			# delay slot filler (just in case)	
-hexasc:
+	
 	move	$a0,$v0		# copy return value to argument register
 
 	li	$v0,11		# syscall with v0 = 11 will print out
@@ -21,15 +21,18 @@ stop:	j	stop		# stop after one run
   #
 
 hexasc:
+	li	$t3, 0x0000000F
+	li	$t0, 0x30
+
+	and	$t1, $a0, $t3	#only use the 4 least significant bits. Could modify $a0 directly but not sure if that's allowed
+
 	li	$t3, 9
-	li	$t0, 0x41
-
-	andi	$t1, $a0, 0x00000001 #only use the 4 least significant bits. Could modify $a0 directly but not sure if that's allowed
-
-	bge	$t1, $t3, isLetter
-	li	$t0, 0
 	
-isLetter:
+	ble	$t1, $t3, hasFixedLetter
+	li	$t0, 0x41
+	sub	$t1, $t1, 10
+	
+hasFixedLetter:
 	add	$t0, $t1, $t0
 	
 	move	$v0, $t0
