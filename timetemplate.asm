@@ -105,6 +105,7 @@ time2string:
 	
 	move	$a0, $t1		# set argument for hexasc to $t1
 	jal	hexasc			# call hexasc
+	nop
 	
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
@@ -119,6 +120,7 @@ time2string:
 	
 	move	$a0, $t1		# set argument for hexasc to $t1
 	jal	hexasc			# call hexasc
+	nop
 
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
@@ -136,6 +138,7 @@ time2string:
 	
 	move	$a0, $t1		# set argument for hexasc to $t1
 	jal	hexasc			# call hexasc
+	nop
 
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
@@ -150,6 +153,7 @@ time2string:
 	
 	move	$a0, $t1		# set argument for hexasc to $t1
 	jal	hexasc			# call hexasc
+	nop
 
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
