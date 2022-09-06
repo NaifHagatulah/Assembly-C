@@ -21,20 +21,18 @@ stop:	j	stop		# stop after one run
   #
 
 hexasc:
-	li	$t3, 0x0000000F
-	li	$t0, 0x30
+	li	$t3, 0x0000000F		#bitmask to only use 4 least significant bits
+	li	$t0, 0x30	
 
-	and	$t1, $a0, $t3	#only use the 4 least significant bits. Could modify $a0 directly but not sure if that's allowed
+	and	$t1, $a0, $t3		#apply bitmask. Could modify $a0 directly but not sure if that's allowed. $t1 is our "fixed" argument, our character offset
 
-	li	$t3, 9
-	
-	ble	$t1, $t3, hasFixedLetter
-	li	$t0, 0x41
-	sub	$t1, $t1, 10
+	ble	$t1, 9, hasFixedLetter	#if $t1 is less than or equal to 9 we skip doing letter specific stuff since it's not a letter 
+	li	$t0, 0x41		#if the code ever gets here it means $t1 is a letter, we will update $t0 to be the "start point" for letters
+	sub	$t1, $t1, 10		#then we remove 10 from the letter index since the value 10 should be the first letter, 11 should be the second and so on
 	
 hasFixedLetter:
-	add	$t0, $t1, $t0
+	add	$t0, $t1, $t0		#now the "start point" for characters should be right no matter what is going to be printed, so we add the offset to it
 	
-	move	$v0, $t0
-	jr	$ra
+	move	$v0, $t0		#put the value of $t0 in the return value register
+	jr	$ra			#return
 	nop			#I've tried having move $v0, $t0 here but it doesn't seem to work
