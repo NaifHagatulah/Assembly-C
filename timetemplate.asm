@@ -98,7 +98,7 @@ delay:
 while:
 	ble	$t0, 0, done			# if $t0 is <= 0 we go to done
 
-	subi	$t0, $t0, 1			# remove 1 from $t0
+	addi	$t0, $t0, -1			# remove 1 from $t0
 
 	li	$t1, 20 # this is the constant that needs to be changed!!
 	li	$t2, 0				# this is "i"

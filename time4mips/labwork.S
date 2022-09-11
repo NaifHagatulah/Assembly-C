@@ -48,7 +48,7 @@ while:
 
 	addi	$t0, $t0, -1			# remove 1 from $t0
 
-	li	$t1, 20 # this is the constant that needs to be changed!!
+	li	$t1, 4000 # this is the constant that needs to be changed!!
 	li	$t2, 0				# this is "i"
 innerLoop:
 	addi	$t2, $t2, 1
