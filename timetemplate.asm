@@ -115,6 +115,7 @@ time2string:
 	andi	$t1, $a1, 0x0000F000	# store 4 MSB in $t1
 	srl	$t1, $t1, 12
 	
+	PUSH	$ra			#save ra
 	PUSH	$a1			# save $a1
 	PUSH	$a0			# save $a0
 	
@@ -172,8 +173,12 @@ time2string:
 
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
+	POP $ra			# read $ra
 	
 	sb	$v0, 4($a0)		# store value from hexasc at address $a0
 	
 	li	$t0, 0x00		# load null byte
 	sb	$t0, 5($a0)		# write null byte
+	
+	jr	$ra
+	nop

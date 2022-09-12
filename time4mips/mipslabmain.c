@@ -57,9 +57,9 @@ int main(void) {
 	display_init();
 
 	display_string(0, "Welcmome");
-	display_string(1, "to");
-	display_string(2, "Palsman");
-	display_string(3, "Computer!");
+	display_string(1, "to Palsman");
+	display_string(2, "Computer!");
+	display_string(3, "(time here)");
 	display_update();
 	
 	display_image(96, icon);
