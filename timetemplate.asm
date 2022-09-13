@@ -97,6 +97,7 @@ delay:
 
 while:
 	ble	$t0, 0, done			# if $t0 is <= 0 we go to done
+	nop
 
 	addi	$t0, $t0, -1			# remove 1 from $t0
 
@@ -107,6 +108,7 @@ innerLoop:
 	blt	$t2, $t1, innerLoop
 
 	j while
+	nop
 done:
 	jr	$ra
 	nop
@@ -115,7 +117,7 @@ time2string:
 	andi	$t1, $a1, 0x0000F000	# store 4 MSB in $t1
 	srl	$t1, $t1, 12
 	
-	PUSH	$ra			#save ra
+	PUSH	$ra			# save ra
 	PUSH	$a1			# save $a1
 	PUSH	$a0			# save $a0
 	

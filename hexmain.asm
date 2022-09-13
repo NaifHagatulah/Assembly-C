@@ -4,7 +4,7 @@
 
 	.text
 main:
-	li	$a0,3		# change this to test different values
+	li	$a0,17		# change this to test different values
 
 	jal	hexasc		# call hexasc
 	nop			# delay slot filler (just in case)	
@@ -28,7 +28,7 @@ hexasc:
 	ble	$t1, 9, hasFixedLetter	#if $t1 is less than or equal to 9 we skip doing letter specific stuff since it's not a letter 
 	nop
 	li	$t0, 0x41		#if the code ever gets here it means $t1 is a letter, we will update $t0 to be the "start point" for letters
-	sub	$t1, $t1, 10		#then we remove 10 from the letter index since the value 10 should be the first letter, 11 should be the second and so on
+	addi	$t1, $t1, -10		#then we remove 10 from the letter index since the value 10 should be the first letter, 11 should be the second and so on
 	
 hasFixedLetter:
 	add	$t0, $t1, $t0		#now the "start point" for characters should be right no matter what is going to be printed, so we add the offset to it
