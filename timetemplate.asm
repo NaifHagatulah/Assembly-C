@@ -100,7 +100,7 @@ while:
 
 	addi	$t0, $t0, -1			# remove 1 from $t0
 
-	li	$t1, 20 # this is the constant that needs to be changed!!
+	li	$t1, 2 # this is the constant that needs to be changed!!
 	li	$t2, 0				# this is "i"
 innerLoop:
 	addi	$t2, $t2, 1
@@ -173,12 +173,32 @@ time2string:
 
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
-	POP $ra			# read $ra
+	POP 	$ra			# read $ra
 	
 	sb	$v0, 4($a0)		# store value from hexasc at address $a0
 	
+	li	$t3, 5			# to be added to the string address to get correct offset
+	li	$t1, 0			# clean $t1
+	li	$t2, 0			# clean	$t2
+	andi	$t1, $a1, 0x0000000F	# take byte from $a1
+	andi	$t2, $a1, 0x000000F0	# take byte from $a1
+	srl	$t2, $t2, 4		# shift second byte from $a1
+	add	$t1, $t1, $t2		# add bytes together
+	
+	bne	$t1, 0, nullByte	# check if bytes are 0 together, if not we should write null byte
+	nop
+	
+	li	$t0, 0x58		# bytes are 0 together here, let's load an "X"
+	sb	$t0, 5($a0)		# write "X" to $a0 with offset 5
+	li	$t3, 6			# set offset to 6 (instead of 5)
+	
+nullByte:
 	li	$t0, 0x00		# load null byte
-	sb	$t0, 5($a0)		# write null byte
+	
+	li	$t4, 0			# clean $t4
+	add	$t4, $t3, $a0		# $t4 is now the write address
+	
+	sb	$t0, ($t4)		# write null byte
 	
 	jr	$ra
 	nop

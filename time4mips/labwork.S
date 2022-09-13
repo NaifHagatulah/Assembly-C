@@ -123,12 +123,32 @@ time2string:
 
 	POP	$a0			# read $a0
 	POP	$a1			# read $a1
-	POP $ra			# read $ra
+	POP 	$ra			# read $ra
 	
 	sb	$v0, 4($a0)		# store value from hexasc at address $a0
 	
+	li	$t3, 5
+	li	$t1, 0
+	li	$t2, 0
+	andi	$t1, $a1, 0x0000000F
+	andi	$t2, $a1, 0x000000F0
+	srl	$t2, $t2, 4
+	add	$t1, $t1, $t2
+	
+	bne	$t1, 0, nullByte
+	nop
+	
+	li	$t0, 0x58
+	sb	$t0, 5($a0)
+	li	$t3, 6
+	
+nullByte:
 	li	$t0, 0x00		# load null byte
-	sb	$t0, 5($a0)		# write null byte
+	
+	li	$t4, 0
+	add	$t4, $t3, $a0
+	
+	sb	$t0, ($t4)		# write null byte
 	
 	jr	$ra
 	nop
