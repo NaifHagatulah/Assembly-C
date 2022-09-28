@@ -7,10 +7,10 @@ int getbtns(void);
 
 int getsw()
 {
-    return PORTD >> 8;
+    return (PORTD >> 8) & 0xF;
 }
 
 int getbtns()
 {
-    return PORTD >> 5;
+    return (PORTD >> 5) & 0x7;
 }

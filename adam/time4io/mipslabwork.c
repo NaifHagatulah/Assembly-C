@@ -6,7 +6,8 @@
    This file should be changed by YOU! So you must
    add comment(s) here with your name(s) and date(s):
 
-   This file modified 2017-04-31 by Ture Teknolog
+
+   This file modified 2022-09-28 by Adam Tovatt
 
    For copyright and licensing, see file COPYING */
 
@@ -52,15 +53,19 @@ void labwork(void)
   *porte = ticks & 0xff;
 
   int buttons = getbtns();
-  if ((buttons & 0x1) == 1)
+  if (buttons & 0x1)
   {
-    mytime &= 0xff0f;
-    mytime |= (getsw() << 4);
+    mytime = (mytime & 0xff0f) | (getsw() << 4); // pretty self explanatory tbh
   }
 
-  if ((buttons & 0x2) == 1)
+  if (buttons & 0x2)
   {
-    mytime = ((getsw() & 0xff) << 1);
+    mytime = (mytime & 0xf0ff) | (getsw() << 8);
+  }
+
+  if (buttons & 0x4)
+  {
+    mytime = (mytime & 0x0fff) | (getsw() << 12);
   }
 
   display_image(96, icon);
