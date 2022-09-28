@@ -1,0 +1,64 @@
+assignment 3
+---------------
+
+2 sekunder:
+
+print-primes.c
+~50 000 | 3 245
+sieves:
+~1 700 000 | 380 800
+sieves-heap:
+~1 700 000 | 380 800
+
+sieves algoritmen är ungefär 117 gånger snabbare
+
+10 sekunder:
+
+print-primes.c
+~115 000 | 6 774
+sieves:
+~7 500 000 | 539 777 ~8 000 000 (kan inte göra mer för segmentation fault)
+sieves-heap:
+~7 500 000 | 1 857 859
+
+print primes är avsevärt mycket långsammare på grund av en långsammare algoritm.
+Ingen tydlig och mätbar skillnad sieves och sieves-heap i hastighet märks
+
+sieves algoritmen är ungefär 274 gånger snabbare
+
+sieves klarar inte lika stora tal. Får segmentation fault någonstans mellan 8 och 9 miljoner
+
+Jag tänker att sieves kanske är ännu snabbare än vad som visas här för här kanske själva tiden att printa till consolen också spelar in
+Stacken borde vara snabbare men det är inte mätbart för oss, oklart varför, kanske för tiden till consolen som sagt
+
+assignment 4
+-------------
+dereferencing är när man tar värdet som en pekare pekar på
+
+endian experiment tar adressen till count och går sen igenom bytes:en där en i taget i stigande ordning
+vi får:
+Endian experiment: 0x23,0x00,0x00,0x00
+detta tyder på att datorn använder little endian eftersom värdet kommer som första byte
+
+"
+
+    It’s easy to read the value in a variety of type sizes. For example, the variable A = 0x13 in 64-bit value in memory at the address B will be 1300 0000 0000 0000. A will always be read as 19 regardless of using 8, 16, 32, 64-bit reads. By contrast, in Big Endian we have to know in which size we have written the value to read it correctly.
+    It’s easy to cast the value to a smaller type like from int16_t to int8_t since int8_t is the byte at the beginning of int16_t.
+    Easily to do mathematical computations “because of the 1:1 relationship between address offset and byte number (offset 0 is byte 0), multiple precision math routines are correspondingly easy to write.”
+
+Some main advantages of Big Endian are
+
+    We can always test whether the number is positive or negative by looking at the byte at offset zero, so it’s easy to do a comparison.
+    The numbers are also stored in the order in which they are printed out, so binary to decimal routines are particularly efficient.
+"
+
+assignment 5
+-------------
+
+- på rad 76 anropas fun(m) med m som parameter. I fun ökas sedan denna med 1 och sen sparas värdet i gv
+- pekaren cp har en storek som beror på operativsystem och processorarkitektur. För en 32bits processor har den storleken 4 bytes
+- strängen "Bonjour!" är bara 8 tecken men strängen som cp pekar på är 9 bytes. Detta för att den sista byten i strängen ska vara en nullbyte
+- Program flash(2) KSEG0 (fun, data: 27BDFFE8 main, data: 27BDFFD0)
+
+- ram(2) KSEG1
+- reserved
