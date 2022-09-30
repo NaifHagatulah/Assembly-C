@@ -42,12 +42,12 @@ void labinit(void)
 
   // PR2 = 9000; // de blir 1 sek om de körs 16 miljoner ggr
 
-  T2CON = 0b111 << 4;           // sätter prescalree till 256
-  PR2 = (80000000 / 256) / 100; // sätter period
-  TMR2 = 0;                     // nollar timer 2
-  IECSET(0) = 0x00000100;       // sätter så interupt är enable på timer 2
-  IPCSET(0) = 0b11111;          // sätter prioritet
-  T2CONSET = 0x8000;            // aktiverar timer 2
+  T2CON = 0b111 << 4;          // sätter prescalree till 256
+  PR2 = (80000000 / 256) / 10; // sätter period
+  TMR2 = 0;                    // nollar timer 2
+  IECSET(0) = 0x00000100;      // sätter så interupt är enable på timer 2
+  IPCSET(0) = 0b11111;         // sätter prioritet
+  T2CONSET = 0x8000;           // aktiverar timer 2
 
   volatile int *trise = (volatile int *)0xbf886100; // make a pointer to adress were led are initilized 0 for output we need zero
   *trise = 0;                                       // make sure that the leds are set as output (0)
