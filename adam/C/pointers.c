@@ -4,8 +4,8 @@
 
 char *text1 = "This is a string.";
 char *text2 = "Yet another thing.";
-int list1[80];
-int list2[80];
+int list1[20]; // lista int med 20 platser == 80 bytes
+int list2[20];
 int count = 0;
 
 void printlist(const int *lst)
