@@ -61,9 +61,8 @@ void labinit(void)
 /* This function is called repetitively from the main program */
 void labwork(void)
 {
-  time2string(textstring, mytime);
-  display_string(3, textstring);
 
+  short update = 0;
   if (*p_led & 0xffff00) // if we are abow index 7 we dont know what happens if we switch between 0-1
   {
     *p_led = 0x00; // reset incase we come abow index 7
@@ -73,30 +72,39 @@ void labwork(void)
   {
     mytime &= 0xff0f;         // nollar minuterna
     mytime |= (getsw()) << 4; // sätter in getsw() in i minuterna allt annat förblir densamma då de bara är nollor
+    update = 1;
   }
   if (getbtns() & 0x04) // kontrollerar om någon av de tre knapparna trycks
   {
     mytime &= 0xf0ff;         // reset the number connected to the btn
     mytime |= (getsw()) << 8; // insert switch value to time
+    update = 1;
   }
   if (getbtns() & 0x08) // kontrollerar om någon av de tre knapparna trycks
   {
     mytime &= 0x0fff;
     mytime |= (getsw()) << 12;
+    update = 1;
   }
   display_image(96, icon);
 
   if (IFS(0))
   {
     IFSCLR(0) = 0xFFFFFFFF; // clear interupt måste cleara alla vet ej varför? ska bara vara en bit egentlien
-
+    if (update)
+    {
+      update = 0;
+    }
     counter++;
-    display_update();
   }
   if (counter == 10)
   {
     counter = 0;
+    time2string(textstring, mytime);
+    display_string(3, textstring);
+    display_update();
     tick(&mytime);
     *p_led = *p_led + 0x1; // lägger till 1 dit led pekar dvs ökar så en till lampa lyser index 0-7 är lampor
+    update = 1;
   }
 }

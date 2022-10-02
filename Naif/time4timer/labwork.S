@@ -113,25 +113,11 @@ andi 	$t1,$a1,0x0000F000	#store four bit value to t1
 	
 					#insert null to right position
 	li	$s2,0x58
-	andi 	$t3,$a1,0x000000F0	
-	andi 	$t4,$a1,0x0000000F	
-	beq 	$t1,0x00,zero
-	nop
-back:
+	
 	li 	$t1,0x00			#load nullinging 
 	sb	$t1,5($a0)
 	jr	$ra
 	nop
 	
-zerot:
-	
-	sb	$s2,5($a0)
-	li 	$t1,0x00
-	sb	$t1,6($a0)
-	jr	$ra
-	nop
-zero:
-	beq	$t2,0x00,zerot
-	nop
-	beq	$t2,$t2,back
+
 	
