@@ -13,11 +13,12 @@
 
 #define COLUMNS 6
 int counter = 0;
+int prime_value;
 void print_number(int n)
 {
     printf("%10d ", n);
     counter++;
-
+    prime_value += n;
     if (counter % COLUMNS == 0)
     {
         printf("\n");
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
     {
         print_sieves(atoi(argv[1]));
         printf("%d ", counter);
+        printf("%f ", (double)prime_value / counter);
     }
     else
         printf("Please state an interger number.\n");
