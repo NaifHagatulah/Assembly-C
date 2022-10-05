@@ -33,7 +33,7 @@ void user_isr(void)
 /* Lab-specific initialization goes here */
 void labinit(void)
 {
-  T2CON = 0b111 << 4;     // sätter prescalree till 256
+  T2CON = 0b111 << 4;     // sätter prescale till 256
   PR2 = 31250;            // sätter period
   TMR2 = 0;               // nollar timer 2
   IECSET(0) = 0x00000100; // sätter så interupt är enable på timer 2
@@ -53,7 +53,6 @@ void labwork(void)
 {
   // delay(1000);
   time2string(textstring, mytime);
-  display_string(3, textstring);
   // tick(&mytime);
 
   *porte = ticks & 0xff;
@@ -62,6 +61,7 @@ void labwork(void)
 
   int switches = getsw();
   int buttons = getbtns();
+  int switches = getsw();
   if (buttons & 0x1)
   {
     mytime = (mytime & 0xff0f) | (switches << 4); // pretty self explanatory tbh
@@ -86,19 +86,15 @@ void labwork(void)
     count++;
   }
 
+  display_image(96, icon);
+
   if (count == 10)
   {
     count = 0;
     ticks++;
     tick(&mytime);
-    shouldUpdate = 1;
-    //*p_led = *p_led + 0x1; // lägger till 1 dit led pekar dvs ökar så en till lampa lyser index 0-7 är lampor
-  }
 
-  if (shouldUpdate == 1)
-  {
-    display_image(96, icon);
+    display_string(3, textstring);
     display_update();
-    shouldUpdate = 0;
   }
 }

@@ -16,7 +16,7 @@
 volatile int *p_led = (volatile int *)0xbf886110;
 int counter;
 int mytime = 0x5957;
-int prime = 1234567;
+int prime = 1;
 
 char textstring[] = "text, more text, and even more text!";
 
