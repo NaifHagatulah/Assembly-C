@@ -54,6 +54,7 @@ void labwork(void)
 
   char shouldUpdate = 0;
 
+  int switches = getsw();
   int buttons = getbtns();
   int switches = getsw();
   if (buttons & 0x1)
