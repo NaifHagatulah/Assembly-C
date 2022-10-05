@@ -118,6 +118,13 @@ andi 	$t1,$a1,0x0000F000	#store four bit value to t1
 	sb	$t1,5($a0)
 	jr	$ra
 	nop
+.global enable_interrupt
+enable_interrupt:
+	
+	ei 
+
+	jr $ra
+	nop
 	
 
 	

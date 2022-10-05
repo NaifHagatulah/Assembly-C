@@ -46,5 +46,5 @@ void q4b()
         IFSCLR(0) = 1 << 8; // bara clear drf använd clear o inte direkt noll
     }
 }
-
+//enable interupt kör bara (ei)
 // MÅSTE SLÅ PÅ INTERUPT!!!

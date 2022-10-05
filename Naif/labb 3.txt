@@ -1,0 +1,9 @@
+q1	We reset IFS(0) we use IFSCLR(0) = 0xffff dont know why i have to reset all bits?
+
+q2	If it was not reset to 0 the code would just go instantly after first time out, we would have no timer or delay
+
+q3	IFS(0) is used to detet timeout event flag. A bit will change to 1 when a timeout is happening 
+PR to define period and T2CON to set prescale
+
+q4	display uppdates onece evry second, the buttons are updated fast and doesnt depend on the delay
+if button is pressed and then change value and pressed agin within one second it will change to the lates value
