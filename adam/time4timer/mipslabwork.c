@@ -33,8 +33,8 @@ void user_isr(void)
 /* Lab-specific initialization goes here */
 void labinit(void)
 {
-  T2CON = 0b111 << 4;     // sätter prescalree till 256
-  PR2 = 3125;             // sätter period
+  T2CON = 0b111 << 4;     // sätter prescale till 256
+  PR2 = 31250;            // sätter period
   TMR2 = 0;               // nollar timer 2
   IECSET(0) = 0x00000100; // sätter så interupt är enable på timer 2
   IPCSET(0) = 0b11111;    // sätter prioritet
@@ -53,7 +53,6 @@ void labwork(void)
 {
   // delay(1000);
   time2string(textstring, mytime);
-  display_string(3, textstring);
   // tick(&mytime);
 
   *porte = ticks & 0xff;
@@ -61,21 +60,22 @@ void labwork(void)
   char shouldUpdate = 0;
 
   int buttons = getbtns();
+  int switches = getsw();
   if (buttons & 0x1)
   {
-    mytime = (mytime & 0xff0f) | (getsw() << 4); // pretty self explanatory tbh
+    mytime = (mytime & 0xff0f) | (switches << 4); // pretty self explanatory tbh
     shouldUpdate = 1;
   }
 
   if (buttons & 0x2)
   {
-    mytime = (mytime & 0xf0ff) | (getsw() << 8);
+    mytime = (mytime & 0xf0ff) | (switches << 8);
     shouldUpdate = 1;
   }
 
   if (buttons & 0x4)
   {
-    mytime = (mytime & 0x0fff) | (getsw() << 12);
+    mytime = (mytime & 0x0fff) | (switches << 12);
     shouldUpdate = 1;
   }
 
@@ -85,19 +85,15 @@ void labwork(void)
     count++;
   }
 
+  display_image(96, icon);
+
   if (count == 10)
   {
     count = 0;
     ticks++;
     tick(&mytime);
-    shouldUpdate = 1;
-    //*p_led = *p_led + 0x1; // lägger till 1 dit led pekar dvs ökar så en till lampa lyser index 0-7 är lampor
-  }
 
-  if (shouldUpdate == 1)
-  {
-    display_image(96, icon);
+    display_string(3, textstring);
     display_update();
-    shouldUpdate = 0;
   }
 }
