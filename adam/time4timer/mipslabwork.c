@@ -34,7 +34,7 @@ void user_isr(void)
 void labinit(void)
 {
   T2CON = 0b111 << 4;     // sätter prescalree till 256
-  PR2 = 3125;             // sätter period
+  PR2 = 31250;            // sätter period
   TMR2 = 0;               // nollar timer 2
   IECSET(0) = 0x00000100; // sätter så interupt är enable på timer 2
   IPCSET(0) = 0b11111;    // sätter prioritet
@@ -60,22 +60,23 @@ void labwork(void)
 
   char shouldUpdate = 0;
 
+  int switches = getsw();
   int buttons = getbtns();
   if (buttons & 0x1)
   {
-    mytime = (mytime & 0xff0f) | (getsw() << 4); // pretty self explanatory tbh
+    mytime = (mytime & 0xff0f) | (switches << 4); // pretty self explanatory tbh
     shouldUpdate = 1;
   }
 
   if (buttons & 0x2)
   {
-    mytime = (mytime & 0xf0ff) | (getsw() << 8);
+    mytime = (mytime & 0xf0ff) | (switches << 8);
     shouldUpdate = 1;
   }
 
   if (buttons & 0x4)
   {
-    mytime = (mytime & 0x0fff) | (getsw() << 12);
+    mytime = (mytime & 0x0fff) | (switches << 12);
     shouldUpdate = 1;
   }
 

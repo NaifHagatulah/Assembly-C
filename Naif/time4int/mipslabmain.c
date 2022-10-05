@@ -55,14 +55,14 @@ int main(void) {
 	SPI2CONSET = 0x8000;
 	
 	display_init();
-	display_string(0, "PålsmänAdvance");
-	display_string(1, "Computer");
-	display_string(2, "Engineering");
-	display_string(3, "");
+
+	display_string(0, "Welcmome");
+	display_string(1, "to Palsman");
+	display_string(2, "Computer!");
+	display_string(3, "(time here)");
 	display_update();
 	
 	display_image(96, icon);
-	
 	
 	labinit(); /* Do any lab-specific initialization */
 
