@@ -1,7 +1,10 @@
+...................................................................
 Test pressing BTN3 and BTN2 at the same time. What happens? Why?
 -------------------------------------------------------------------
 Flera siffror sätts på klockan
 
+
+...................................................................
 Three device-registers for input/output control are TRISE, TRISESET, and TRISECLR.
 Their functions are related. How? What are the differences?
 -------------------------------------------------------------------
@@ -10,6 +13,7 @@ TRISESET sätter de valda bitsen om man skriver till den och ger undefined om ma
 TRISECLR tar bort de valda bitsen om man skriver till den och ger undefined om  man försöker läsa från den
 
 
+...................................................................
 In the generated assembly code, in which MIPS register will the return values from
 functions getbtns and getsw be placed in. You should be able to answer this question
 without debugging the generated assembly code.
@@ -17,6 +21,7 @@ without debugging the generated assembly code.
 $v0 antar jag då
 
 
+...................................................................
 In this exercise, we explained which bits that should be used in Port D and Port E. How can
 you find this information in the PIC32 and ChipKIT manuals? Be prepared to demonstrate
 how to find this information in the manuals.
@@ -35,3 +40,81 @@ där står det RE0 längst till höger
 det betyder port E och bit 0
 
 lampa med id 27 har RE1 vilket blir port e och bit 1
+
+
+...................................................................
+When the time-out event-flag is a "1", how does your code reset it to "0"?
+-------------------------------------------------------------------
+den återställs med IFSCLR(0) = 0xFFFFFFFF;
+
+
+...................................................................
+What would happen if the time-out event-flag was not reset to "0" by your code? Why?
+-------------------------------------------------------------------
+The time would move really fast since it would think the timer has ticked every time the code runs the labwork function
+
+
+...................................................................
+Which device-register (or registers) must be written to define the time between time-out
+events? Describe the function of that register (or of those registers).
+-------------------------------------------------------------------
+T2CON sets the prescale value
+PR2 sets the period between timeouts with that prescale
+
+
+...................................................................
+If you press BTN3 quickly, does the time update reliably? Why, or why not? If not, would
+that be easy to change? If so, how?
+-------------------------------------------------------------------
+Tiden uppdateras. Men om den inte gjorde det tänker jag mig att man kanske hade kunnat öka uppdateringsfrekvensen för skärmen, alltså sänka tiden som väntas mellan uppdateringar.
+
+
+...................................................................
+When the time-out event-flag is a "1", how does your code reset it to "0"?
+-------------------------------------------------------------------
+IFSCLR(0) = 0x100; sätter timeout flaggan till 0 igen
+
+...................................................................
+What would happen if the time-out event-flag was not reset to "0" by your code? Why?
+-------------------------------------------------------------------
+Den skulle räkna upp svinsnabbt för det är som att timern gick av absolut hela tiden
+
+...................................................................
+From which part of the code is the function user_isr called? Why is it called from there?
+-------------------------------------------------------------------
+Den anropas från vectors.S, för att _isr_trampooline är en interrupt service routine. Innan user_isr anropas sparas alla register och sedan återställs de efter (eller inte ALLA, men många)
+
+...................................................................
+Why are registers saved before the call to user_isr? Why are only some registers saved?
+-------------------------------------------------------------------
+För att registrerna kan komma att ändras när user_isr anropas men man vill ha kvar värdet av dem som de var innan man anropade user_isr. Bara vissa sparas eftersom resten är callee-saved och då kommer c kompilatorn ta hand om att spara dem
+
+...................................................................
+Which device-register (or registers), and which processor-register (or registers) must be
+written to enable interrupts from the timer? Describe the functions of the relevant registers.
+-------------------------------------------------------------------
+interrupts använder registrerna $k1 och $k0
+
+The processor stores the current PC in a register called EPC.
+The processor jumps to address 0x80000180 where the exception 
+handler is stored.
+The processor stores the cause of the exception in register called Cause.
+The exception handler inspects the cause of the exception and handles 
+the exception. EPC and Cause are not normal register. They are accessed 
+using instruction mfc0 (move from coprocessor 0). 
+The exception handler saves registers on the stack.
+The exception handler restores saved registers, copies the return 
+program pointer EPC to $k0, and jumps back using  jr $k0. 
+Alternatively, for MIPS32, use the eret instruction.
+
+The PIC32 family of devices employs two register sets, a primary register set for normal program
+execution and a shadow register set for highest priority interrupt processing. Register set
+selection is automatically performed by the Interrupt Controller. The exact method of register set
+selection varies by the Interrupt Controller modes of operation.
+
+IPCx: Interrupt Priority Control Register (Continued)
+IECx: Interrupt Enable Control Register
+
+Ei is called without argument, GPR r0 is implied which discards the previous value of status register
+Det som händer, Nuvarande värdet för status register laddas till general register rt. Interupt enable (EI)
+bit i status register är då uppsätt
