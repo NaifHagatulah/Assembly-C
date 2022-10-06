@@ -95,22 +95,12 @@ written to enable interrupts from the timer? Describe the functions of the relev
 -------------------------------------------------------------------
 interrupts använder registrerna $k1 och $k0
 
-The processor stores the current PC in a register called EPC.
-The processor jumps to address 0x80000180 where the exception 
-handler is stored.
-The processor stores the cause of the exception in register called Cause.
-The exception handler inspects the cause of the exception and handles 
-the exception. EPC and Cause are not normal register. They are accessed 
-using instruction mfc0 (move from coprocessor 0). 
-The exception handler saves registers on the stack.
-The exception handler restores saved registers, copies the return 
-program pointer EPC to $k0, and jumps back using  jr $k0. 
-Alternatively, for MIPS32, use the eret instruction.
+interrupts använder registrerna $k1 och $k0, IEC register används för enable interupt, interrupt system must be
+enabled with the ei instruction before it will accept any interrupts
 
-The PIC32 family of devices employs two register sets, a primary register set for normal program
-execution and a shadow register set for highest priority interrupt processing. Register set
-selection is automatically performed by the Interrupt Controller. The exact method of register set
-selection varies by the Interrupt Controller modes of operation.
+Ei is called without argument, GPR(General purps register) r0 is implied which discards the previous value of status register
+Det som händer, Nuvarande värdet för status register laddas till general register rt. Interupt enable (EI)
+bit i status register är då uppsätt
 
 IPCx: Interrupt Priority Control Register (Continued)
 IECx: Interrupt Enable Control Register
